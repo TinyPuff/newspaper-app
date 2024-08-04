@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Newspaper App{% endblock title %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="github-card">
+            <div class="github-card-header">
+                <div>
+                    <div class="github-card-title">{{ article.title }}</div>
+                    <div class="text-muted">by {{ article.author }} · Posted on: {{ article.date }}</div>
+                </div>
+                <div class="github-buttons">
+                    <a href="{% url 'edit_article' article.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="{% url 'delete_article' article.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                </div>
+            </div>
+            <div class="github-card-body text-break overflow-auto">
+                <p>{{ article.body }}</p>
+                <div class="row text-center">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

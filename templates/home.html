@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Newspaper App{% endblock title %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h2>Welcome {{ user.username }}</h2>
+        <form action="{% url 'logout' %}" method="post">{% csrf_token %}
+            <button class="btn btn-success" type="submit">Log Out</button>
+        </form>
+    {% else %}
+        <h2>You are not signed in!</h2>
+    {% endif %}
+    {% for post in article %}
+        <div class="container mt-5">
+            <div class="github-card">
+                <div class="github-card-header">
+                    <div>
+                        <div class="github-card-title"><a href="{% url 'article_details' post.pk %}">{{ post.title }}</a></div>
+                        <div class="text-muted">by {{ post.author }} · Posted on: {{ post.date }}</div>
+                    </div>
+                    <div class="github-buttons">
+                        <a href="{% url 'edit_article' post.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_article' post.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </div>
+                <div class="github-card-body">
+                    <p>{{ post.body|truncatechars:200 }}</p>
+                    <div class="row text-center">
+                    </div>
+                </div>
+                <div class="card-footer text-center text-muted">
+                    <a href="{% url 'article_details' post.pk %}">Read more...</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
