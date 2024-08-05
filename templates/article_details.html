@@ -12,10 +12,12 @@
                     <div class="github-card-title">{{ article.title }}</div>
                     <div class="text-muted">by {{ article.author }} · Posted on: {{ article.date }}</div>
                 </div>
-                <div class="github-buttons">
-                    <a href="{% url 'edit_article' article.pk %}" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="{% url 'delete_article' article.pk %}" class="btn btn-danger btn-sm">Delete</a>
-                </div>
+                {% if user.username == article.author.username %}
+                    <div class="github-buttons">
+                        <a href="{% url 'edit_article' article.pk %}" class="btn btn-primary btn-sm">Edit</a>
+                        <a href="{% url 'delete_article' article.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                {% endif %}
             </div>
             <div class="github-card-body text-break overflow-auto">
                 <p>{{ article.body }}</p>
@@ -24,4 +26,21 @@
             </div>
         </div>
     </div>
+    <h3>Comments:</h3>
+    {% for comment in article.comments.all %}
+        <div class="container mt-5">
+            <div class="github-card">
+                <div class="github-card-header">
+                    <div>
+                        <div class="text-muted">by {{ comment.author }}</div> <!-- Could add the comment date and time -->
+                    </div>
+                </div>
+                <div class="github-card-body text-break overflow-auto">
+                    <p>{{ comment.comment }}</p>
+                    <div class="row text-center">
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {% endblock content %}
